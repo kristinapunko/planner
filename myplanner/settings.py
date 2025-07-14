@@ -83,12 +83,25 @@ WSGI_APPLICATION = 'myplanner.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',  # змінено на PostgreSQL
+        'NAME': 'planner_kesv',                      # ім'я бази даних на Render
+        'USER': 'kristina',                      # користувач бази даних
+        'PASSWORD': 'o54A5iezeIXSIXvjwarwltZgRoM1bW9Q',              # пароль
+        'HOST': 'dpg-d1qkk6i4d50c739d2860-a.frankfurt-postgres.render.com',
+        'PORT': '5432',                              # порт PostgreSQL (звичайно 5432)
     }
 }
+
 
 
 # Password validation
