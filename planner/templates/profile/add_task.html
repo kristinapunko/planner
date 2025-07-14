@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Головна{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #F2F2E9; 
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .form-container {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(37, 84, 89, 0.1); 
+        max-width: 800px;
+        margin: 0 auto;
+        border: 1px solid #75BFB8; 
+    }
+    h2 {
+        color: #255459;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    .form-label {
+        color: #593A2E; 
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+    .form-control, .form-select, textarea {
+        border: 2px solid #75BFB8; 
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+        background-color: #F2F2E9;
+    }
+    .form-control:focus, .form-select:focus, textarea:focus {
+        border-color: #255459; 
+        box-shadow: 0 0 0 0.2rem rgba(37, 84, 89, 0.15); 
+        background-color: white;
+    }
+    .form-check-label {
+        color: #593A2E; 
+    }
+    .btn-primary {
+        background-color: #255459; 
+        border-color: #255459; 
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+        background-color: #A66F5B; 
+        border-color: #A66F5B; 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(166, 111, 91, 0.2);
+    }
+    .datetime-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        background-color: rgba(117, 191, 184, 0.1);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+    .datetime-container label {
+        margin-bottom: 0;
+        color: #255459;
+        font-weight: 500;
+    }
+    .form-check {
+        margin-left: 1rem;
+    }
+    .divider {
+        border-top: 2px dashed #75BFB8; 
+        margin: 1.5rem 0;
+        opacity: 0.5;
+    }
+    .category-tag {
+        display: inline-block;
+        background-color: #A66F5B;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+</style>
+
+<div class="container py-2">
+    <div class="form-container">
+        <h2><i class="fas fa-tasks me-2"></i>Нове завдання</h2>
+        
+        <form method="post">
+        {% csrf_token %}
+            <div class="mb-4">
+                <label for="title" class="form-label">Назва завдання</label>
+                <input type="text" class="form-control" id="title"  name="title" placeholder="Що потрібно зробити?" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Термін виконання</label>
+                <div class="datetime-container">
+                    <span class="fw-bold">Початок:</span>
+                    <input type="datetime-local" class="form-control"  name="start_time" id="start_time">
+                    <span class="fw-bold">Кінець:</span>
+                    <input type="datetime-local" class="form-control"  name="end_time" id="end_time">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="no_deadline" id="no_deadline">
+                        <label class="form-check-label" for="noDate">Без терміну</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="mb-4">
+                <label for="description" class="form-label">Детальний опис</label>
+                <textarea class="form-control" name="description" id="description" rows="4" placeholder="Опишіть деталі завдання..."></textarea>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <label for="priority" class="form-label">Пріоритет</label>
+                    <select class="form-select" id="priority" name="priority">
+                        <option value="high">Високий</option>
+                        <option value="medium" selected>Середній</option>
+                        <option value="low">Низький</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="category" class="form-label">Категорія</label>
+                    <input type="text" class="form-control" id="category" name="category" placeholder="Додати категорію">
+                    <div class="mt-2">
+                        <span class="category-tag">робота</span>
+                        <span class="category-tag">навчання</span>
+                        <span class="category-tag">особисте</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'main' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-times me-2"></i>Скасувати
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus-circle me-2"></i>Додати завдання
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+{% endblock %}

@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card border-0 shadow-sm task-detail-card">
+        <div class="card-header task-header">
+            <h2 class="mb-0">{{ task.title }}</h2>
+        </div>
+        <div class="card-body task-body">
+            {% if task.description %}
+            <div class="mb-4">
+                <h4 class="task-section-title">Опис:</h4>
+                <p class="ps-3">{{ task.description }}</p>
+            </div>
+            {% endif %}
+
+            <div class="row mb-3">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <h4 class="task-section-title">Статус:</h4>
+                    <span class="badge task-badge">
+                        {% if task.done %}
+                            <i class="bi bi-check-circle-fill"></i> Виконано
+                        {% else %}
+                            <i class="bi bi-hourglass-split"></i> В процесі
+                        {% endif %}
+                    </span>
+                </div>
+
+                {% if task.priority %}
+                <div class="col-md-6">
+                    <h4 class="task-section-title">Пріоритет:</h4>
+                    <span class="badge task-badge">{{ task.get_priority_display }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if task.start_time or task.end_time %}
+            <div class="row mb-4">
+                {% if task.start_time %}
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <h4 class="task-section-title">Початок:</h4>
+                    <span class="badge time-badge">
+                        <i class="bi bi-clock"></i> {{ task.start_time|date:"d E Y, H:i" }}
+                    </span>
+                </div>
+                {% endif %}
+                {% if task.end_time %}
+                <div class="col-md-6">
+                    <h4 class="task-section-title">Завершення:</h4>
+                    <span class="badge time-badge">
+                        <i class="bi bi-clock-fill"></i> {{ task.end_time|date:"d E Y, H:i" }}
+                    </span>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            {% if task.category %}
+            <div class="mb-3">
+                <h4 class="task-section-title">Категорія:</h4>
+                <span class="badge category-badge">{{ task.category }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="card-footer bg-transparent border-0 d-flex flex-column flex-md-row justify-content-between gap-2">
+            <a href="{% url 'main' %}" class="btn back-btn">
+                <i class="bi bi-arrow-left"></i> Назад до списку
+            </a>
+            <div class="btn-group d-flex flex-column flex-md-row gap-2">
+                <a href="{% url 'task-edit' task.id %}" class="btn action-btn">
+                    <i class="bi bi-pencil"></i> Редагувати
+                </a>
+                <a href="{% url 'task-delete' task.id %}" class="btn delete-btn">
+                    <i class="bi bi-trash"></i> Видалити
+                </a>
+                {% if not task.completed %}
+                <a href="{% url 'done' task.id %}" class="btn done-btn">
+                    <i class="bi bi-check-circle"></i> Завершити
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.task-detail-card {
+    background-color: #F2F2E9;
+}
+
+.task-header {
+    background-color: #255459;
+    color: white;
+}
+
+.task-body {
+    color: #593A2E;
+}
+
+.task-section-title {
+    color: #A66F5B;
+}
+
+.task-badge {
+    background-color: #D9B08C;
+    color: #593A2E;
+}
+
+.time-badge {
+    background-color: #75BFB8;
+    color: #593A2E;
+}
+
+.category-badge {
+    background-color: #A66F5B;
+    color: #F2F2E9;
+}
+
+.back-btn {
+    background-color: #75BFB8;
+    color: #593A2E;
+}
+
+.action-btn {
+    background-color: #75BFB8;
+    color: #593A2E;
+}
+
+.delete-btn {
+    background-color: #A66F5B;
+    color: #F2F2E9;
+}
+
+.done-btn {
+    background-color: #255459;
+    color: white;
+}
+
+/* 🔻 Мобільна адаптація */
+@media (max-width: 580px) {
+    .task-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .task-body p,
+    .task-section-title {
+        font-size: 1rem;
+    }
+
+    .card-footer {
+        flex-direction: column !important;
+        gap: 0.75rem;
+    }
+
+    .btn-group {
+        flex-direction: column !important;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}
